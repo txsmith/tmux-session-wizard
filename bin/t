@@ -33,7 +33,7 @@ else
   SELECT_WINDOW=$(get_tmux_option "@session-wizard-windows" "off")
   KILL_LABEL="session"
   [ "$SELECT_WINDOW" == "on" ] && KILL_LABEL="window"
-  FZF_ARGS=(--reverse --print-query --tiebreak=index)
+  FZF_ARGS=(--ansi --reverse --print-query --tiebreak=index)
   FZF_ARGS+=(--bind "ctrl-x:execute-silent(\"$CURRENT_DIR/t\" --kill-row $SELECT_WINDOW {})+reload(\"$CURRENT_DIR/t\" --list-sessions $SELECT_WINDOW)")
   if __fzf_version_at_least 0 64; then
     FZF_ARGS+=(--footer "ctrl-x: kill $KILL_LABEL")
