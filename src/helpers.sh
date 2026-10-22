@@ -146,13 +146,13 @@ __fzfcmd() {
 # restored by tmux-resurrect).
 build_session_list() {
   local select_window="$1"
-  local list busy=$'\e[32m●\e[0m'
+  local list unseen=$'\e[32m●\e[0m' working=$'\e[33m●\e[0m'
   if [ "$select_window" == "on" ]; then
     list=$(tmux list-windows -a -F "#{session_last_attached} #{session_name}: #{window_name}(#{window_index})\
 #{?session_grouped, (group ,}#{session_group}#{?session_grouped,),}#{?session_attached,#{?window_active, (attached),},}" 2>/dev/null)
   else
     list=$(tmux list-sessions -F "#{session_last_attached} #{session_name}: #{session_windows} window(s)\
-#{?session_grouped, (group ,}#{session_group}#{?session_grouped,),}#{?session_attached, (attached),} #{?#{m:*1*,#{W:#{P:#{@claude_unseen}}}},${busy},○}" 2>/dev/null)
+#{?session_grouped, (group ,}#{session_group}#{?session_grouped,),}#{?session_attached, (attached),} #{?#{m:*1*,#{W:#{P:#{@claude_unseen}}}},${unseen},#{?#{m:*1*,#{W:#{P:#{@claude_busy}}}},${working},○}}" 2>/dev/null)
   fi
   # Numeric sort so never-attached sessions (empty/0 timestamp) sink to the
   # bottom; LC_ALL=C because some locales collate blanks in ways that float
